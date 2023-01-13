@@ -118,6 +118,7 @@ static const size_t  JFRMaxFrameSize        = 32;
     if(self = [super init]) {
         self.certValidated = NO;
         self.voipEnabled = NO;
+        self.background = NO;
         self.selfSignedSSL = NO;
         self.queue = dispatch_get_main_queue();
         self.url = url;
@@ -288,6 +289,11 @@ static const size_t  JFRMaxFrameSize        = 32;
         [self.inputStream setProperty:NSStreamNetworkServiceTypeVoIP forKey:NSStreamNetworkServiceType];
         [self.outputStream setProperty:NSStreamNetworkServiceTypeVoIP forKey:NSStreamNetworkServiceType];
     }
+    if(self.background) {
+        [self.inputStream setProperty:NSStreamNetworkServiceTypeBackground forKey:NSStreamNetworkServiceType];
+        [self.outputStream setProperty:NSStreamNetworkServiceTypeBackground forKey:NSStreamNetworkServiceType];
+    }
+
     if(self.selfSignedSSL) {
         NSString *chain = (__bridge_transfer NSString *)kCFStreamSSLValidatesCertificateChain;
         NSString *peerName = (__bridge_transfer NSString *)kCFStreamSSLValidatesCertificateChain;
